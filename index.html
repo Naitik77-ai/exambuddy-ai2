@@ -4,31 +4,24 @@
   <meta charset="UTF-8">
   <title>ExamBuddy - BCom AI Study</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
-    body {font-family: 'Segoe UI', sans-serif; margin:0; background:#eef2f7;}
-    .center {display:flex; justify-content:center; align-items:center; height:100vh;}
-    .login-box {background:white; padding:30px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.1); width:300px; text-align:center;}
-    input {width:90%; padding:10px; margin:10px 0; border-radius:8px; border:1px solid #ccc;}
-    button {padding:10px 20px; border:none; border-radius:8px; cursor:pointer; background:#4facfe; color:white;}
-    .hero {background:linear-gradient(to right,#4facfe,#00f2fe); color:white; padding:40px; text-align:center;}
+    body {font-family: Arial; margin:0; background:#f4f6f9;}
     .container {padding:20px; text-align:center;}
-    .card {background:white; padding:20px; margin:15px; border-radius:15px; display:inline-block; width:220px; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.1); transition:0.3s;}
-    .card:hover {transform:translateY(-5px);}
-    #content {margin-top:20px; text-align:left; max-width:800px; margin:auto;}
+    .hero {background:linear-gradient(to right,#4facfe,#00f2fe); color:white; padding:50px 20px;}
+    button {padding:10px 20px; margin:10px; border:none; border-radius:8px; cursor:pointer;}
+    .card {background:white; padding:20px; margin:15px; border-radius:12px; display:inline-block; width:200px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.1);} 
+    #content {margin-top:20px;}
     .hidden {display:none;}
+    input {padding:10px; margin:5px; border-radius:6px; border:1px solid #ccc;}
   </style>
 </head>
 <body>
 
-<div id="loginPage" class="center">
-  <div class="login-box">
-    <h2>ExamBuddy Login</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p onclick="signup()" style="cursor:pointer; color:#4facfe;">New user? Sign up</p>
-  </div>
+<div id="loginPage" class="container">
+  <h2>Login to ExamBuddy</h2>
+  <input type="text" id="username" placeholder="Username"><br>
+  <input type="password" id="password" placeholder="Password"><br>
+  <button onclick="login()">Login</button>
 </div>
 
 <div id="mainPage" class="hidden">
@@ -52,199 +45,46 @@
 
 <script>
 function login(){
-  let user = document.getElementById('username').value.trim();
-  let pass = document.getElementById('password').value.trim();
-
-  let storedUser = localStorage.getItem('user');
-  let storedPass = localStorage.getItem('pass');
-
-  if(user === storedUser && pass === storedPass){
-    openApp();
-  } else {
-    alert('Invalid login! Please sign up first.');
-  }
-}
-
-function signup(){
-  let user = prompt('Create Username');
-  let pass = prompt('Create Password');
-
+  let user = document.getElementById('username').value;
+  let pass = document.getElementById('password').value;
   if(user && pass){
-    localStorage.setItem('user', user);
-    localStorage.setItem('pass', pass);
-    alert('Signup successful! Now login.');
+    document.getElementById('loginPage').classList.add('hidden');
+    document.getElementById('mainPage').classList.remove('hidden');
+  } else {
+    alert('Enter login details');
   }
-}
-
-function openApp(){
-  document.getElementById('loginPage').classList.add('hidden');
-  document.getElementById('mainPage').classList.remove('hidden');
 }
 
 function showContent(type){
   let content = document.getElementById('content');
   
   if(type==='notes'){
-    content.innerHTML = `
-    <h2>BCom Notes (Detailed)</h2>
-    <button onclick="downloadPDF('Accounting Notes', accountingNotes)">Accounting PDF</button>
-    <button onclick="downloadPDF('Economics Notes', economicsNotes)">Economics PDF</button>
-    <button onclick="downloadPDF('Business Law Notes', lawNotes)">Business Law PDF</button>
-    <p style='margin-top:15px;'>Preview:</p>
-    <pre>${accountingNotes.substring(0,200)}...</pre>
-    `;
+    content.innerHTML = '<h3>BCom Notes</h3><p>Financial Accounting, Business Law, Economics notes available.</p>';
   }
-
+  
   if(type==='pyq'){
-    content.innerHTML = `<h2>PYQs</h2><ul><li>Trial Balance explain</li><li>Demand determinants</li><li>Contract essentials</li></ul>`;
+    content.innerHTML = '<h3>Previous Year Questions</h3><p>Important questions from past BCom exams.</p>';
   }
-
+  
   if(type==='group'){
-    content.innerHTML = `<h2>Group Study</h2><p>Join Accounting / Economics discussion groups.</p>`;
+    content.innerHTML = '<h3>Group Study</h3><p>Join students to discuss Commerce topics.</p>';
   }
 
   if(type==='video'){
-    content.innerHTML = `<h2>Video Call</h2><p>Demo feature for study calls.</p>`;
+    content.innerHTML = '<h3>Video Call</h3><p>Start a study video session (demo feature).</p>';
   }
 
   if(type==='summary'){
-    content.innerHTML = `<h2>Summary</h2><p>Quick revision of key concepts.</p>`;
+    content.innerHTML = '<h3>Chapter Summary</h3><p>Quick revision of Accounting & Business topics.</p>';
   }
 
   if(type==='lecture'){
-    content.innerHTML = `<h2>Lectures</h2><p>Watch recorded BCom lectures.</p>`;
+    content.innerHTML = '<h3>Video Lectures</h3><p>Watch lectures on BCom subjects.</p>';
   }
 
   if(type==='analysis'){
-    content.innerHTML = `<h2>AI Analysis</h2><p>Strong in Economics, Improve Accounting.</p>`;
+    content.innerHTML = '<h3>AI Analysis</h3><p>Your performance: Strong in Economics, Improve Accounting.</p>';
   }
-}
-
-const accountingNotes = `
-FINANCIAL ACCOUNTING (DETAILED NOTES)
-
-1. INTRODUCTION
-Financial Accounting is the process of recording, summarizing and reporting financial transactions of a business.
-
-2. ACCOUNTING CYCLE
-- Journal → Ledger → Trial Balance → Final Accounts
-
-3. JOURNAL
-- First step of accounting
-- Records transactions chronologically
-- Format: Date | Particulars | Debit | Credit
-
-4. LEDGER
-- Posting from journal to individual accounts
-- Shows balance of each account
-
-5. TRIAL BALANCE
-- Statement to check accuracy
-- Total Debit = Total Credit
-
-6. FINAL ACCOUNTS
-A) Trading Account:
-   - Calculates Gross Profit
-B) Profit & Loss Account:
-   - Calculates Net Profit
-C) Balance Sheet:
-   - Shows financial position
-
-7. IMPORTANT FORMULA
-Assets = Liabilities + Capital
-
-8. DEPRECIATION
-- Decrease in value of assets over time
-- Methods: Straight Line, Written Down Value
-
-9. ERRORS
-- Errors of omission
-- Errors of commission
-
-Conclusion: Accounting helps in decision-making and financial analysis.
-`;
-
-const economicsNotes = `
-MICRO ECONOMICS (DETAILED NOTES)
-
-1. INTRODUCTION
-Economics studies how people allocate scarce resources.
-
-2. DEMAND
-- Quantity demanded at various prices
-- Law of Demand: Price ↑ → Demand ↓
-
-3. ELASTICITY OF DEMAND
-- Measures responsiveness of demand
-Types:
-- Elastic (>1)
-- Inelastic (<1)
-- Unitary (=1)
-
-4. SUPPLY
-- Quantity supplied at different prices
-- Law of Supply: Price ↑ → Supply ↑
-
-5. MARKET STRUCTURES
-A) Perfect Competition
-B) Monopoly
-C) Oligopoly
-D) Monopolistic Competition
-
-6. COST & REVENUE
-- Fixed Cost, Variable Cost
-- Total Revenue = Price × Quantity
-
-7. EQUILIBRIUM
-Occurs where Demand = Supply
-
-Conclusion: Economics helps in understanding market behavior and pricing.
-`;
-
-const lawNotes = `
-BUSINESS LAW (DETAILED NOTES)
-
-1. INTRODUCTION
-Business Law governs commercial transactions.
-
-2. CONTRACT ACT
-Contract = Agreement + Enforceable by law
-
-3. ESSENTIALS OF VALID CONTRACT
-- Offer & Acceptance
-- Free Consent
-- Lawful Consideration
-- Competent Parties
-
-4. TYPES OF CONTRACTS
-- Valid Contract
-- Void Contract
-- Voidable Contract
-
-5. BREACH OF CONTRACT
-- Occurs when one party fails to perform
-- Remedies: Damages, Specific Performance
-
-6. SALE OF GOODS ACT
-- Conditions & Warranties
-- Transfer of ownership
-
-7. CONSUMER PROTECTION
-- Rights of consumers
-- Protection against unfair trade
-
-Conclusion: Business law ensures fairness in trade and commerce.
-`;
-
-function downloadPDF(title, contentText){
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  doc.setFontSize(16);
-  doc.text(title, 10, 20);
-  doc.setFontSize(12);
-  const lines = doc.splitTextToSize(contentText, 180);
-  doc.text(lines, 10, 30);
-  doc.save(title + '.pdf');
 }
 </script>
 
