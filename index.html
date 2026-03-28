@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ExamBuddy - BCom AI Study</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {font-family: Arial; margin:0; background:#f4f6f9;}
+    .container {padding:20px; text-align:center;}
+    .hero {background:linear-gradient(to right,#4facfe,#00f2fe); color:white; padding:50px 20px;}
+    button {padding:10px 20px; margin:10px; border:none; border-radius:8px; cursor:pointer;}
+    .card {background:white; padding:20px; margin:15px; border-radius:12px; display:inline-block; width:200px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.1);} 
+    #content {margin-top:20px;}
+    .hidden {display:none;}
+    input {padding:10px; margin:5px; border-radius:6px; border:1px solid #ccc;}
+  </style>
+</head>
+<body>
+
+<div id="loginPage" class="container">
+  <h2>Login to ExamBuddy</h2>
+  <input type="text" id="username" placeholder="Username"><br>
+  <input type="password" id="password" placeholder="Password"><br>
+  <button onclick="login()">Login</button>
+</div>
+
+<div id="mainPage" class="hidden">
+  <div class="hero">
+    <h1>Welcome to ExamBuddy 📚</h1>
+    <p>Your AI-powered BCom study partner</p>
+  </div>
+
+  <div class="container">
+    <div class="card" onclick="showContent('notes')">Notes</div>
+    <div class="card" onclick="showContent('pyq')">PYQs</div>
+    <div class="card" onclick="showContent('group')">Group Study</div>
+    <div class="card" onclick="showContent('video')">Video Call</div>
+    <div class="card" onclick="showContent('summary')">Chapter Summary</div>
+    <div class="card" onclick="showContent('lecture')">Video Lectures</div>
+    <div class="card" onclick="showContent('analysis')">AI Analysis</div>
+  </div>
+
+  <div id="content" class="container"></div>
+</div>
+
+<script>
+function login(){
+  let user = document.getElementById('username').value;
+  let pass = document.getElementById('password').value;
+  if(user && pass){
+    document.getElementById('loginPage').classList.add('hidden');
+    document.getElementById('mainPage').classList.remove('hidden');
+  } else {
+    alert('Enter login details');
+  }
+}
+
+function showContent(type){
+  let content = document.getElementById('content');
+  
+  if(type==='notes'){
+    content.innerHTML = '<h3>BCom Notes</h3><p>Financial Accounting, Business Law, Economics notes available.</p>';
+  }
+  
+  if(type==='pyq'){
+    content.innerHTML = '<h3>Previous Year Questions</h3><p>Important questions from past BCom exams.</p>';
+  }
+  
+  if(type==='group'){
+    content.innerHTML = '<h3>Group Study</h3><p>Join students to discuss Commerce topics.</p>';
+  }
+
+  if(type==='video'){
+    content.innerHTML = '<h3>Video Call</h3><p>Start a study video session (demo feature).</p>';
+  }
+
+  if(type==='summary'){
+    content.innerHTML = '<h3>Chapter Summary</h3><p>Quick revision of Accounting & Business topics.</p>';
+  }
+
+  if(type==='lecture'){
+    content.innerHTML = '<h3>Video Lectures</h3><p>Watch lectures on BCom subjects.</p>';
+  }
+
+  if(type==='analysis'){
+    content.innerHTML = '<h3>AI Analysis</h3><p>Your performance: Strong in Economics, Improve Accounting.</p>';
+  }
+}
+</script>
+
+</body>
+</html>
