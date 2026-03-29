@@ -7,59 +7,81 @@
     body {
       margin: 0;
       font-family: Arial;
-      background: #0f172a;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
       color: white;
     }
 
-    .container {
+    .center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-box {
+      background: rgba(255,255,255,0.05);
+      padding: 30px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
       text-align: center;
-      margin-top: 100px;
+      width: 300px;
     }
 
     input {
+      width: 90%;
       padding: 10px;
-      width: 250px;
-      margin: 5px;
-      border-radius: 5px;
+      margin: 8px;
       border: none;
+      border-radius: 6px;
     }
 
     button {
       padding: 10px 20px;
       border: none;
-      background: #2563eb;
+      background: #3b82f6;
       color: white;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
     }
 
     .dashboard {
       display: none;
-      padding: 20px;
     }
 
     .sidebar {
-      width: 200px;
-      background: #1e293b;
+      width: 220px;
       height: 100vh;
+      background: rgba(0,0,0,0.4);
       position: fixed;
-      left: 0;
-      top: 0;
       padding: 20px;
+    }
+
+    .sidebar h3 {
+      margin-bottom: 20px;
+    }
+
+    .sidebar p {
+      cursor: pointer;
+      margin: 10px 0;
     }
 
     .main {
-      margin-left: 220px;
-      padding: 20px;
+      margin-left: 240px;
+      padding: 30px;
+    }
+
+    .cards {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
     .card {
-      background: #1e293b;
+      background: rgba(255,255,255,0.05);
       padding: 20px;
-      margin: 10px;
       border-radius: 10px;
-      display: inline-block;
-      width: 200px;
+      width: 220px;
+      text-align: center;
     }
   </style>
 </head>
@@ -67,72 +89,73 @@
 <body>
 
 <!-- LOGIN -->
-<div class="container" id="loginPage">
-  <h2>ExamBuddy AI</h2>
-
-  <input id="email" placeholder="Email"><br>
-  <input id="password" type="password" placeholder="Password"><br><br>
-
-  <button onclick="login()">Login</button>
+<div class="center" id="loginPage">
+  <div class="login-box">
+    <h2>ExamBuddy AI</h2>
+    <input id="email" placeholder="Email"><br>
+    <input id="password" type="password" placeholder="Password"><br><br>
+    <button onclick="login()">Login</button>
+  </div>
 </div>
 
 <!-- DASHBOARD -->
 <div class="dashboard" id="dashboard">
 
-  <!-- Sidebar -->
   <div class="sidebar">
     <h3>Subjects</h3>
-    <p>Accounting</p>
-    <p>Business Law</p>
-    <p>PYQs</p>
+    <p>📘 Accounting</p>
+    <p>📗 Business Law</p>
+    <p>📄 PYQs</p>
 
+    <br><br>
     <button onclick="logout()">Logout</button>
   </div>
 
-  <!-- Main Content -->
   <div class="main">
     <h1>Dashboard</h1>
 
-    <div class="card">
-      <h3>Accounting Notes</h3>
-      <a href="notes/accounting.pdf" target="_blank">
-        <button>View Notes</button>
-      </a>
-    </div>
+    <div class="cards">
+      <div class="card">
+        <h3>Accounting Notes</h3>
+        <a href="notes/accounting.pdf" target="_blank">
+          <button>View Notes</button>
+        </a>
+      </div>
 
-    <div class="card">
-      <h3>Business Law Notes</h3>
-      <a href="notes/law.pdf" target="_blank">
-        <button>View Notes</button>
-      </a>
-    </div>
+      <div class="card">
+        <h3>Business Law Notes</h3>
+        <a href="notes/law.pdf" target="_blank">
+          <button>View Notes</button>
+        </a>
+      </div>
 
-    <div class="card">
-      <h3>PYQs</h3>
-      <a href="pyqs/2023.pdf" target="_blank">
-        <button>View PYQs</button>
-      </a>
+      <div class="card">
+        <h3>PYQs</h3>
+        <a href="pyqs/2023.pdf" target="_blank">
+          <button>View PYQs</button>
+        </a>
+      </div>
     </div>
-
   </div>
+
 </div>
 
 <script>
 function login() {
-  var email = document.getElementById("email").value;
-  var password = document.getElementById("password").value;
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
 
-  if (email && password) {
+  if(email && password){
     document.getElementById("loginPage").style.display = "none";
     document.getElementById("dashboard").style.display = "block";
   } else {
-    alert("Enter email and password");
+    alert("Please enter email & password");
   }
 }
 
 function logout() {
   document.getElementById("dashboard").style.display = "none";
-  document.getElementById("loginPage").style.display = "block";
+  document.getElementById("loginPage").style.display = "flex";
 }
 </script>
 
