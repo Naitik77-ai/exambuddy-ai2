@@ -6,16 +6,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{margin:0;font-family:'Segoe UI';background:#f1f5f9;}
+.center{display:flex;justify-content:center;align-items:center;height:100vh;}
+.login-box{background:white;padding:30px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.1);width:300px;text-align:center;}
+input{width:90%;padding:10px;margin:10px 0;border-radius:8px;border:1px solid #ccc;}
+button{padding:10px 15px;border:none;border-radius:8px;background:#3b82f6;color:white;cursor:pointer;margin:5px;}
 .sidebar{width:220px;height:100vh;background:#1e293b;color:white;position:fixed;padding:20px;}
 .sidebar h2{margin-bottom:30px;}
 .sidebar div{margin:15px 0;cursor:pointer;}
 .main{margin-left:240px;padding:20px;}
 .card{background:white;padding:20px;border-radius:12px;margin:15px 0;box-shadow:0 4px 12px rgba(0,0,0,0.1);} 
-button{padding:10px 15px;border:none;border-radius:8px;background:#3b82f6;color:white;cursor:pointer;margin:5px;}
 .header{background:white;padding:15px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1);} 
+.hidden{display:none;}
 </style>
 </head>
 <body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="center">
+  <div class="login-box">
+    <h2>ExamBuddy Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p onclick="signup()" style="cursor:pointer;color:#3b82f6;">New user? Sign up</p>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="hidden">
 
 <div class="sidebar">
 <h2>ExamBuddy</h2>
@@ -25,6 +43,7 @@ button{padding:10px 15px;border:none;border-radius:8px;background:#3b82f6;color:
 <div onclick="showContent('group')">👥 Group Study</div>
 <div onclick="showContent('video')">🎥 Classes</div>
 <div onclick="showContent('analysis')">📊 AI Analysis</div>
+<div onclick="logout()">🚪 Logout</div>
 </div>
 
 <div class="main">
@@ -32,111 +51,86 @@ button{padding:10px 15px;border:none;border-radius:8px;background:#3b82f6;color:
 <div id="content"></div>
 </div>
 
+</div>
+
 <script>
+
+function signup(){
+let user=prompt('Create Username');
+let pass=prompt('Create Password');
+if(user && pass){
+localStorage.setItem('user',user);
+localStorage.setItem('pass',pass);
+alert('Signup successful! Now login');
+}
+}
+
+function login(){
+let user=document.getElementById('username').value;
+let pass=document.getElementById('password').value;
+
+let storedUser=localStorage.getItem('user');
+let storedPass=localStorage.getItem('pass');
+
+if(user===storedUser && pass===storedPass){
+openApp();
+}else{
+alert('Invalid login');
+}
+}
+
+function openApp(){
+document.getElementById('loginPage').classList.add('hidden');
+document.getElementById('app').classList.remove('hidden');
+showContent('dashboard');
+}
+
+function logout(){
+document.getElementById('app').classList.add('hidden');
+document.getElementById('loginPage').classList.remove('hidden');
+}
 
 function showContent(type){
 let c=document.getElementById('content');
 
 if(type==='dashboard'){
-c.innerHTML=`
-<div class='card'>
-<h3>Welcome Student 🎓</h3>
-<p>Your AI-powered BCom learning platform</p>
-</div>
-
-<div class='card'>
-<b>Progress:</b> 75% Complete
-</div>`;
+c.innerHTML=`<div class='card'><h3>Welcome Student 🎓</h3><p>Your AI-powered BCom learning platform</p></div>`;
 }
 
 if(type==='notes'){
-c.innerHTML=`
-<div class='card'>
-<h2>📚 BCom Notes</h2>
-
-<h3>Semester 1</h3>
-<button onclick="loadPDF('notes/accounting.pdf')">Financial Accounting</button>
-<button onclick="loadPDF('notes/economics.pdf')">Micro Economics</button>
-
-<h3>Semester 2</h3>
-<button onclick="loadPDF('notes/law.pdf')">Business Law</button>
-<button onclick="loadPDF('notes/business.pdf')">Business Organisation</button>
-
-<div id="pdfViewer" style="margin-top:15px;">
-<p>Select subject to view notes 👆</p>
-</div>
-</div>`;
+c.innerHTML=`<div class='card'><h2>📚 Notes</h2>
+<button onclick="loadPDF('notes/accounting.pdf')">Accounting</button>
+<button onclick="loadPDF('notes/economics.pdf')">Economics</button>
+<div id='pdfViewer'></div></div>`;
 }
 
 if(type==='pyq'){
-c.innerHTML=`
-<div class='card'>
-<h2>📝 Previous Year Papers</h2>
-
-<h3>Semester 1</h3>
+c.innerHTML=`<div class='card'><h2>📝 PYQs</h2>
 <button onclick="loadPDF('pyqs/accounting_pyq.pdf')">Accounting PYQ</button>
 <button onclick="loadPDF('pyqs/economics_pyq.pdf')">Economics PYQ</button>
-
-<h3>Semester 2</h3>
-<button onclick="loadPDF('pyqs/law_pyq.pdf')">Business Law PYQ</button>
-<button onclick="loadPDF('pyqs/business_pyq.pdf')">Business PYQ</button>
-
-<div id="pdfViewer" style="margin-top:15px;">
-<p>Select paper to view 👆</p>
-</div>
-</div>`;
+<div id='pdfViewer'></div></div>`;
 }
 
 if(type==='group'){
-c.innerHTML=`
-<div class='card'>
-<h3>👥 Group Study</h3>
-<p>Join student communities</p>
-<button>Join Accounting Group</button>
-<button>Join Economics Group</button>
-</div>`;
+c.innerHTML=`<div class='card'><h3>Group Study</h3><button>Join Group</button></div>`;
 }
 
 if(type==='video'){
-c.innerHTML=`
-<div class='card'>
-<h3>🎥 Virtual Classroom</h3>
-
-<p><b>Today's Classes:</b></p>
-<ul>
-<li>Accounting - 10 AM</li>
-<li>Economics - 1 PM</li>
-</ul>
-
-<iframe width="100%" height="300" src="https://www.youtube.com/embed/5MgBikgcWnY"></iframe>
-
-<button>Join Live Class</button>
+c.innerHTML=`<div class='card'><h3>Virtual Class</h3>
+<iframe width='100%' height='300' src='https://www.youtube.com/embed/5MgBikgcWnY'></iframe>
 </div>`;
 }
 
 if(type==='analysis'){
-c.innerHTML=`
-<div class='card'>
-<h3>📊 AI Analysis</h3>
-
-<p>Accounting: Needs Improvement</p>
-<p>Economics: Strong</p>
-<p>Business Law: Average</p>
-
-<p><b>Prediction:</b> B+ Grade</p>
-</div>`;
+c.innerHTML=`<div class='card'><h3>AI Analysis</h3><p>Economics Strong</p></div>`;
 }
-
 }
 
 function loadPDF(url){
-document.getElementById('pdfViewer').innerHTML =
-`<iframe src="${url}" width="100%" height="500px"></iframe>`;
+document.getElementById('pdfViewer').innerHTML=`<iframe src="${url}" width="100%" height="500"></iframe>`;
 }
-
-showContent('dashboard');
 
 </script>
 
 </body>
-</html>
+</h
