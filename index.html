@@ -1,136 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>ExamBuddy Premium</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{margin:0;font-family:'Segoe UI';background:#f1f5f9;}
-.center{display:flex;justify-content:center;align-items:center;height:100vh;}
-.login-box{background:white;padding:30px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.1);width:300px;text-align:center;}
-input{width:90%;padding:10px;margin:10px 0;border-radius:8px;border:1px solid #ccc;}
-button{padding:10px 15px;border:none;border-radius:8px;background:#3b82f6;color:white;cursor:pointer;margin:5px;}
-.sidebar{width:220px;height:100vh;background:#1e293b;color:white;position:fixed;padding:20px;}
-.sidebar h2{margin-bottom:30px;}
-.sidebar div{margin:15px 0;cursor:pointer;}
-.main{margin-left:240px;padding:20px;}
-.card{background:white;padding:20px;border-radius:12px;margin:15px 0;box-shadow:0 4px 12px rgba(0,0,0,0.1);} 
-.header{background:white;padding:15px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.1);} 
-.hidden{display:none;}
-</style>
-</head>
-<body>
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-<!-- LOGIN PAGE -->
-<div id="loginPage" class="center">
-  <div class="login-box">
-    <h2>ExamBuddy Login</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p onclick="signup()" style="cursor:pointer;color:#3b82f6;">New user? Sign up</p>
-  </div>
-</div>
+export default function ExamBuddy() {
+  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-<!-- MAIN APP -->
-<div id="app" class="hidden">
+  const login = () => {
+    if (email && password) {
+      setUser(email);
+    }
+  };
 
-<div class="sidebar">
-<h2>ExamBuddy</h2>
-<div onclick="showContent('dashboard')">🏠 Dashboard</div>
-<div onclick="showContent('notes')">📚 Notes</div>
-<div onclick="showContent('pyq')">📝 PYQs</div>
-<div onclick="showContent('group')">👥 Group Study</div>
-<div onclick="showContent('video')">🎥 Classes</div>
-<div onclick="showContent('analysis')">📊 AI Analysis</div>
-<div onclick="logout()">🚪 Logout</div>
-</div>
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
+        <Card className="p-6 w-96">
+          <CardContent>
+            <h1 className="text-2xl mb-4">Login</h1>
+            <Input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+            <Input
+              placeholder="Password"
+              type="password"
+              className="mt-2"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button className="mt-4 w-full" onClick={login}>
+              Login
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
-<div class="main">
-<div class="header"><h2>Student Dashboard</h2></div>
-<div id="content"></div>
-</div>
+  return (
+    <div className="bg-gray-900 min-h-screen text-white p-6">
+      <h1 className="text-3xl mb-6">ExamBuddy AI</h1>
 
-</div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card>
+          <CardContent>
+            <h2 className="text-xl">Accounting Notes</h2>
+            <a href="/notes/accounting.pdf" target="_blank">
+              <Button className="mt-2">View Notes</Button>
+            </a>
+          </CardContent>
+        </Card>
 
-<script>
+        <Card>
+          <CardContent>
+            <h2 className="text-xl">Business Law Notes</h2>
+            <a href="/notes/law.pdf" target="_blank">
+              <Button className="mt-2">View Notes</Button>
+            </a>
+          </CardContent>
+        </Card>
 
-function signup(){
-let user=prompt('Create Username');
-let pass=prompt('Create Password');
-if(user && pass){
-localStorage.setItem('user',user);
-localStorage.setItem('pass',pass);
-alert('Signup successful! Now login');
+        <Card>
+          <CardContent>
+            <h2 className="text-xl">PYQs</h2>
+            <a href="/pyqs/2023.pdf" target="_blank">
+              <Button className="mt-2">View PYQs</Button>
+            </a>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
 }
-}
-
-function login(){
-let user=document.getElementById('username').value;
-let pass=document.getElementById('password').value;
-
-let storedUser=localStorage.getItem('user');
-let storedPass=localStorage.getItem('pass');
-
-if(user===storedUser && pass===storedPass){
-openApp();
-}else{
-alert('Invalid login');
-}
-}
-
-function openApp(){
-document.getElementById('loginPage').classList.add('hidden');
-document.getElementById('app').classList.remove('hidden');
-showContent('dashboard');
-}
-
-function logout(){
-document.getElementById('app').classList.add('hidden');
-document.getElementById('loginPage').classList.remove('hidden');
-}
-
-function showContent(type){
-let c=document.getElementById('content');
-
-if(type==='dashboard'){
-c.innerHTML=`<div class='card'><h3>Welcome Student 🎓</h3><p>Your AI-powered BCom learning platform</p></div>`;
-}
-
-if(type==='notes'){
-c.innerHTML=`<div class='card'><h2>📚 Notes</h2>
-<button onclick="loadPDF('notes/accounting.pdf')">Accounting</button>
-<button onclick="loadPDF('notes/economics.pdf')">Economics</button>
-<div id='pdfViewer'></div></div>`;
-}
-
-if(type==='pyq'){
-c.innerHTML=`<div class='card'><h2>📝 PYQs</h2>
-<button onclick="loadPDF('pyqs/accounting_pyq.pdf')">Accounting PYQ</button>
-<button onclick="loadPDF('pyqs/economics_pyq.pdf')">Economics PYQ</button>
-<div id='pdfViewer'></div></div>`;
-}
-
-if(type==='group'){
-c.innerHTML=`<div class='card'><h3>Group Study</h3><button>Join Group</button></div>`;
-}
-
-if(type==='video'){
-c.innerHTML=`<div class='card'><h3>Virtual Class</h3>
-<iframe width='100%' height='300' src='https://www.youtube.com/embed/5MgBikgcWnY'></iframe>
-</div>`;
-}
-
-if(type==='analysis'){
-c.innerHTML=`<div class='card'><h3>AI Analysis</h3><p>Economics Strong</p></div>`;
-}
-}
-
-function loadPDF(url){
-document.getElementById('pdfViewer').innerHTML=`<iframe src="${url}" width="100%" height="500"></iframe>`;
-}
-
-</script>
-
-</body>
-</h
