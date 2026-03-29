@@ -1,92 +1,49 @@
-import { useState } from "react";
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ExamBuddy AI</title>
+</head>
 
-export default function App() {
-  const [user, setUser] = useState(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+<body style="font-family: Arial; text-align:center; margin-top:100px; background:#111; color:white;">
 
-  const login = () => {
-    if (email && password) {
-      setUser(email);
-    }
-  };
+<h2>ExamBuddy AI</h2>
 
-  const logout = () => {
-    setUser(null);
-  };
+<input id="email" placeholder="Email"><br><br>
+<input id="password" type="password" placeholder="Password"><br><br>
 
-  if (!user) {
-    return (
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", background: "#111", color: "white" }}>
-        <div style={{ padding: "20px", background: "#222", borderRadius: "10px", width: "300px" }}>
-          <h2>ExamBuddy AI</h2>
-          <input
-            type="text"
-            placeholder="Email"
-            style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            style={{ width: "100%", padding: "10px" }}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button
-            onClick={login}
-            style={{ width: "100%", marginTop: "10px", padding: "10px", background: "blue", color: "white", border: "none" }}
-          >
-            Login
-          </button>
-        </div>
-      </div>
-    );
+<button onclick="login()">Login</button>
+
+<div id="dashboard" style="display:none; margin-top:30px;">
+
+  <h2>Dashboard</h2>
+
+  <h3>Accounting Notes</h3>
+  <a href="notes/accounting.pdf" target="_blank">
+    <button>View Notes</button>
+  </a>
+
+  <h3>Business Law Notes</h3>
+  <a href="notes/law.pdf" target="_blank">
+    <button>View Notes</button>
+  </a>
+
+  <h3>PYQs</h3>
+  <a href="pyqs/2023.pdf" target="_blank">
+    <button>View PYQs</button>
+  </a>
+
+</div>
+
+<script>
+function login() {
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
+
+  if(email && password){
+    document.getElementById("dashboard").style.display = "block";
   }
-
-  return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#111", color: "white" }}>
-      {/* Sidebar */}
-      <div style={{ width: "200px", background: "#222", padding: "20px" }}>
-        <h3>Subjects</h3>
-        <p>Accounting</p>
-        <p>Business Law</p>
-        <p>PYQs</p>
-
-        <button
-          onClick={logout}
-          style={{ marginTop: "20px", padding: "10px", background: "red", color: "white", border: "none" }}
-        >
-          Logout
-        </button>
-      </div>
-
-      {/* Main Content */}
-      <div style={{ padding: "20px", flex: 1 }}>
-        <h1>Dashboard</h1>
-
-        <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
-          <div style={{ background: "#222", padding: "20px", borderRadius: "10px" }}>
-            <h3>Accounting Notes</h3>
-            <a href="/notes/accounting.pdf" target="_blank">
-              <button style={{ marginTop: "10px" }}>View Notes</button>
-            </a>
-          </div>
-
-          <div style={{ background: "#222", padding: "20px", borderRadius: "10px" }}>
-            <h3>Business Law Notes</h3>
-            <a href="/notes/law.pdf" target="_blank">
-              <button style={{ marginTop: "10px" }}>View Notes</button>
-            </a>
-          </div>
-
-          <div style={{ background: "#222", padding: "20px", borderRadius: "10px" }}>
-            <h3>PYQs</h3>
-            <a href="/pyqs/2023.pdf" target="_blank">
-              <button style={{ marginTop: "10px" }}>View PYQs</button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 }
+</script>
+
+</body>
+</html>
