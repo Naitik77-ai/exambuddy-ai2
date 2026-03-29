@@ -2,36 +2,119 @@
 <html>
 <head>
   <title>ExamBuddy AI</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+    }
+
+    .container {
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    input {
+      padding: 10px;
+      width: 250px;
+      margin: 5px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .dashboard {
+      display: none;
+      padding: 20px;
+    }
+
+    .sidebar {
+      width: 200px;
+      background: #1e293b;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 20px;
+    }
+
+    .main {
+      margin-left: 220px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 10px;
+      display: inline-block;
+      width: 200px;
+    }
+  </style>
 </head>
 
-<body style="font-family: Arial; text-align:center; margin-top:100px; background:#111; color:white;">
+<body>
 
-<h2>ExamBuddy AI</h2>
+<!-- LOGIN -->
+<div class="container" id="loginPage">
+  <h2>ExamBuddy AI</h2>
 
-<input id="email" placeholder="Email"><br><br>
-<input id="password" type="password" placeholder="Password"><br><br>
+  <input id="email" placeholder="Email"><br>
+  <input id="password" type="password" placeholder="Password"><br><br>
 
-<button onclick="login()">Login</button>
+  <button onclick="login()">Login</button>
+</div>
 
-<div id="dashboard" style="display:none; margin-top:30px;">
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
 
-  <h2>Dashboard</h2>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h3>Subjects</h3>
+    <p>Accounting</p>
+    <p>Business Law</p>
+    <p>PYQs</p>
 
-  <h3>Accounting Notes</h3>
-  <a href="notes/accounting.pdf" target="_blank">
-    <button>View Notes</button>
-  </a>
+    <button onclick="logout()">Logout</button>
+  </div>
 
-  <h3>Business Law Notes</h3>
-  <a href="notes/law.pdf" target="_blank">
-    <button>View Notes</button>
-  </a>
+  <!-- Main Content -->
+  <div class="main">
+    <h1>Dashboard</h1>
 
-  <h3>PYQs</h3>
-  <a href="pyqs/2023.pdf" target="_blank">
-    <button>View PYQs</button>
-  </a>
+    <div class="card">
+      <h3>Accounting Notes</h3>
+      <a href="notes/accounting.pdf" target="_blank">
+        <button>View Notes</button>
+      </a>
+    </div>
 
+    <div class="card">
+      <h3>Business Law Notes</h3>
+      <a href="notes/law.pdf" target="_blank">
+        <button>View Notes</button>
+      </a>
+    </div>
+
+    <div class="card">
+      <h3>PYQs</h3>
+      <a href="pyqs/2023.pdf" target="_blank">
+        <button>View PYQs</button>
+      </a>
+    </div>
+
+  </div>
 </div>
 
 <script>
@@ -39,9 +122,17 @@ function login() {
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
 
-  if(email && password){
+  if (email && password) {
+    document.getElementById("loginPage").style.display = "none";
     document.getElementById("dashboard").style.display = "block";
+  } else {
+    alert("Enter email and password");
   }
+}
+
+function logout() {
+  document.getElementById("dashboard").style.display = "none";
+  document.getElementById("loginPage").style.display = "block";
 }
 </script>
 
