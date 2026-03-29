@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
+import { BookOpen, FileText, LogOut } from "lucide-react";
 
 export default function ExamBuddy() {
   const [user, setUser] = useState(null);
@@ -13,16 +14,18 @@ export default function ExamBuddy() {
     if (email && password) setUser(email);
   };
 
+  const logout = () => setUser(null);
+
   if (!user) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
-          <Card className="p-6 w-96 bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl">
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white">
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}>
+          <Card className="p-8 w-96 bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-2xl">
             <CardContent>
-              <h1 className="text-3xl font-bold mb-4 text-center">ExamBuddy AI</h1>
+              <h1 className="text-3xl font-bold mb-6 text-center">ExamBuddy AI</h1>
               <Input
                 placeholder="Email"
-                className="bg-black/40 border-none mb-2"
+                className="bg-black/40 border-none mb-3"
                 onChange={(e) => setEmail(e.target.value)}
               />
               <Input
@@ -31,7 +34,7 @@ export default function ExamBuddy() {
                 className="bg-black/40 border-none"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button className="mt-4 w-full rounded-xl" onClick={login}>
+              <Button className="mt-5 w-full rounded-xl" onClick={login}>
                 Login
               </Button>
             </CardContent>
@@ -42,51 +45,63 @@ export default function ExamBuddy() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white">
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-64 h-screen bg-black/40 backdrop-blur-lg p-5 border-r border-white/10">
-          <h2 className="text-xl font-semibold mb-6">Subjects</h2>
-          <ul className="space-y-3 text-gray-300">
-            <li className="hover:text-white cursor-pointer">Accounting</li>
-            <li className="hover:text-white cursor-pointer">Business Law</li>
-            <li className="hover:text-white cursor-pointer">PYQs</li>
-          </ul>
+        <div className="w-64 h-screen bg-white/5 backdrop-blur-xl p-6 border-r border-white/10 flex flex-col justify-between">
+          <div>
+            <h2 className="text-2xl font-bold mb-8">ExamBuddy</h2>
+            <ul className="space-y-4 text-gray-300">
+              <li className="flex items-center gap-2 hover:text-white cursor-pointer">
+                <BookOpen size={18} /> Accounting
+              </li>
+              <li className="flex items-center gap-2 hover:text-white cursor-pointer">
+                <BookOpen size={18} /> Business Law
+              </li>
+              <li className="flex items-center gap-2 hover:text-white cursor-pointer">
+                <FileText size={18} /> PYQs
+              </li>
+            </ul>
+          </div>
+
+          <Button onClick={logout} className="mt-6 bg-red-500 hover:bg-red-600 rounded-xl flex items-center gap-2">
+            <LogOut size={16} /> Logout
+          </Button>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-8">
-          <h1 className="text-4xl font-bold mb-8">Dashboard</h1>
+        <div className="flex-1 p-10">
+          <h1 className="text-4xl font-bold mb-10">Welcome, {user}</h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <motion.div whileHover={{ scale: 1.05 }}>
-              <Card className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl">
+              <Card className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl">
                 <CardContent>
                   <h2 className="text-xl font-semibold">Accounting Notes</h2>
                   <a href="/notes/accounting.pdf" target="_blank">
-                    <Button className="mt-3 rounded-xl w-full">View Notes</Button>
+                    <Button className="mt-4 w-full rounded-xl">Open Notes</Button>
                   </a>
                 </CardContent>
               </Card>
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.05 }}>
-              <Card className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl">
+              <Card className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl">
                 <CardContent>
                   <h2 className="text-xl font-semibold">Business Law Notes</h2>
                   <a href="/notes/law.pdf" target="_blank">
-                    <Button className="mt-3 rounded-xl w-full">View Notes</Button>
+                    <Button className="mt-4 w-full rounded-xl">Open Notes</Button>
                   </a>
                 </CardContent>
               </Card>
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.05 }}>
-              <Card className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl">
+              <Card className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-xl">
                 <CardContent>
                   <h2 className="text-xl font-semibold">PYQs</h2>
                   <a href="/pyqs/2023.pdf" target="_blank">
-                    <Button className="mt-3 rounded-xl w-full">View PYQs</Button>
+                    <Button className="mt-4 w-full rounded-xl">Open PYQs</Button>
                   </a>
                 </CardContent>
               </Card>
